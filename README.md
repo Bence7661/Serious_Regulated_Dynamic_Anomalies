@@ -7,7 +7,7 @@ This is going to be an iterative project where I request your help, so how can y
 ## How to help
 1. Install the mod. (prio doesn't matter)
 2. Just play as you would normally.
-3. When you get to a place where you would think a DAO spawned anomaly would be annyoing go to MCM -> Regulated Dynamic Anomalies and tick `Enable smart logger`
+3. When you get to a place where you would think a DAO spawned anomaly would be annoying go to MCM -> Regulated Dynamic Anomalies and tick `Enable smart logger`
 
 ![image](https://github.com/user-attachments/assets/c1d16b42-83dc-4914-899c-94b2226b6a9c)
 
