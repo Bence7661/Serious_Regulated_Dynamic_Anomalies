@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="windows-1251"?>
+<string_table>
+    <string id="ui_mcm_menu_regulated_dynamic_anomalies">
+        <text>Regulated Dynamic Anomalies</text>
+    </string>
+
+    <string id="ui_mcm_rda_sld_text">
+        <text>Regulated Dynamic Anomalies</text>
+    </string>
+
+    <string id="ui_mcm_regulated_dynamic_anomalies_smart_logger_help">
+        <text>Tick this option to enable the smart terrain logger.
+        \nTo use it after activation press "X"</text>
+    </string>
+
+    <string id="ui_mcm_regulated_dynamic_anomalies_smart_logger_desc">
+        <text>This is required to be ticked for the smart logger keybind to work.</text>
+    </string>
+
+    <string id="ui_mcm_regulated_dynamic_anomalies_smart_logger">
+        <text>Enable smart logger</text>
+    </string>
+</string_table>

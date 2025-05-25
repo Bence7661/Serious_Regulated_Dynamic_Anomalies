@@ -1,0 +1,14 @@
+local smartBlacklistByMap =
+{
+    ["l08u_brainlab"] =
+    {
+        ["x162_st_snork"] = true
+    }
+}
+
+function IsSmartBlacklisted(smart)
+    local level = level.name()
+    local mapBlacklist = smartBlacklistByMap[level]
+
+    return mapBlacklist and mapBlacklist[smart]
+end

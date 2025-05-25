@@ -1,0 +1,30 @@
+local rdaCfg = regulated_dynamic_anomalies_config.Get
+
+function LogSmartData(key)
+    if key == DIK_keys.DIK_X and rdaCfg("smart_logger") then
+        local smart_id = smart_terrain.nearest_to_actor_smart.id
+        local smart = smart_id and SIMBOARD.smarts[smart_id]
+
+        if not smart or not smart.smrt then
+            Log("[SERIOUS SMART LOGGER] Smart not found!")
+        else
+            Log("[SERIOUS SMART LOGGER] LevelName: %s, Smart name: %s", level.name(), smart.smrt:name())
+        end
+    end
+end
+
+function ForceUpdateDAOs(key)
+    if key == DIK_keys.DIK_C and rdaCfg("devDebug") then
+        drx_da_main.drx_da_update_dynamic_anomalies(true)
+    end
+end
+
+function Log(msg, ...)
+    if rdaCfg("devDebug") then FileLogger.log(msg, ...)
+    else printf(msg, ...) end
+end
+
+function on_game_start()
+    RegisterScriptCallback("on_key_press", ForceUpdateDAOs)
+    RegisterScriptCallback("on_key_press", LogSmartData)
+end

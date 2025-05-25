@@ -1,0 +1,177 @@
+local settings = drx_da_main.settings
+local reduced_chance_levels = drx_da_main.reduced_chance_levels
+local anomalies_radiation_fields = drx_da_main.anomalies_radiation_fields
+local updated_anomaly_levels = drx_da_main.updated_anomaly_levels
+local smart_restrictions = drx_da_main.smart_restrictions
+
+-- Imports
+local clamp = clamp
+local time_global = time_global
+
+local get_start_time = level.get_start_time
+local get_game_time = game.get_game_time
+
+local level_vertex_id = level.vertex_id
+local level_vertex_position = level.vertex_position
+
+local abs = math.abs
+local ceil = math.ceil
+local cos = math.cos
+local floor = math.floor
+local max = math.max
+local min = math.min
+local random = math.random
+local sin = math.sin
+local sqrt = math.sqrt
+
+OldSpawnAnomaliesOnLevel = drx_da_main.drx_da_spawn_anomalies_on_level
+drx_da_main.drx_da_spawn_anomalies_on_level = function (level_name)
+	local level_data = drx_da_main.get_level_data(level_name)
+	if not level_data then
+		printf("Error, unable to get data for %s", level_name)
+		return
+	end
+
+	local level_file = level_data.level_file
+	local spawn_percent = level_data.spawn_percent
+	local anomaly_max_number = level_data.anomaly_max_number * settings.anomaly_amount_modifier
+	local anomaly_max_active = level_data.anomaly_max_active
+
+	local pairs = pairs
+	local collect_section = utils_data.collect_section
+	local size_table = size_table
+	local invert_table = invert_table
+	local is_not_empty = is_not_empty
+	local is_empty = is_empty
+	local table_remove = table.remove
+
+	-- Build a list of available smart terrains:
+	local smart_list = collect_section(level_file, "available_smarts")
+
+	if is_not_empty(smart_list) then
+		if reduced_chance_levels[level_name] then
+			local t = {}
+			for k, v in pairs(smart_list) do
+				if random(100) <= 50 then
+					t[#t + 1] = v
+				end
+			end
+			smart_list = t
+		end
+	end
+
+	-- Build a list of available smart terrains with reduced amount:
+	local smart_list_reduced = collect_section(level_file, "available_smarts_reduced")
+	if is_not_empty(smart_list_reduced) then
+		smart_list_reduced = invert_table(smart_list_reduced)
+		for k, v in pairs(smart_list_reduced) do
+			smart_list[#smart_list + 1] = k
+		end
+	end
+
+	-- Build a list of available anomalies:
+	local anomaly_list = collect_section(level_file, "anomaly_types")
+	if settings.disable_new_anomalies then
+		local t = {}
+		for _, v in pairs(anomaly_list) do
+			if not drx_da_main_mcm.new_anomalies_sections[v] then
+				t[#t + 1] = v
+			else
+				printf("disable all new anomalies, found section %s", v)
+			end
+		end
+		anomaly_list = t
+	else
+		local t = {}
+		for k, v in pairs(anomaly_list) do
+			if drx_da_main_mcm.new_anomalies_sections[v] then
+				if drx_da_main_mcm.is_enabled_anomaly(v) then
+					t[#t + 1] = v
+				else
+					printf("anomaly %s is not enabled", v)
+				end
+			else
+				t[#t + 1] = v
+			end
+		end
+		anomaly_list = t
+	end
+
+	-- Combine radiation fields to one type
+	local rad_fields = {}
+	for i = #anomaly_list, 1, -1 do
+		if anomalies_radiation_fields[anomaly_list[i]] then
+			rad_fields[#rad_fields + 1] = anomaly_list[i]
+			table_remove(anomaly_list, i)
+		end
+	end
+	if is_not_empty(rad_fields) then
+		for i = 1, math.ceil(#rad_fields / 2) do
+			if is_empty(rad_fields) then break end
+			anomaly_list[#anomaly_list + 1] = table_remove(rad_fields, math.random(#rad_fields))
+		end
+	end
+
+	-- Build anomalies table
+	if is_not_empty(smart_list) then
+		local anomalies = drx_da_main.updated_anomaly_levels[level_name].anomalies or {}
+		local anomalies_by_smart = drx_da_main.updated_anomaly_levels[level_name].anomalies_by_smart or {}
+		local smart_by_anomalies = drx_da_main.updated_anomaly_levels[level_name].smart_by_anomalies or {}
+		local anomaly_types_by_smart = drx_da_main.updated_anomaly_levels[level_name].anomaly_types_by_smart or {}
+		local anomalies_properties = drx_da_main.updated_anomaly_levels[level_name].anomalies_properties or {}
+		local available_smarts_reduced = drx_da_main.updated_anomaly_levels[level_name].available_smarts_reduced or {}
+
+		for i, smart_name in pairs(smart_list) do
+			if (true or not smart_restrictions[smart_name]) and not dao_smart_blacklists.IsSmartBlacklisted(smart_name) and random() <= settings.anomaly_zone_spawn_chance then
+				-- Choose an anomaly type to spawn:
+				if anomaly_list and #anomaly_list >= 1 then
+					local anomaly_type = anomaly_list[random(#anomaly_list)]
+
+					-- if anomaly_type == "zone_radiation_field" then
+					-- 	anomaly_type = rad_fields[math.random(#rad_fields)]
+					-- end
+					
+					printf("picked anomaly type %s", anomaly_type)
+
+					if not anomalies_by_smart[smart_name] then anomalies_by_smart[smart_name] = {} end
+					local j = size_table(anomalies_by_smart[smart_name])
+
+					-- Store position data of generated anomalies
+					local position_data = kd_tree.buildTreeVectors()
+
+					if j > 0 then
+						for k, v in pairs(anomalies_by_smart[smart_name]) do
+							local se_obj = drx_da_main.get_anomaly_obj(k)
+							if se_obj then
+								local pos = se_obj.position
+								if pos then
+									position_data:insertAndRebuild({x = pos.x, y = pos.y, z = pos.z})
+								end
+							end
+						end
+					end
+
+					while j < (smart_list_reduced[smart_name] and random(3) or anomaly_max_number) do
+						if random() <= (smart_list_reduced[smart_name] and 0.5 or spawn_percent) then
+							local anom_id = drx_da_main.drx_da_spawn_anomaly_on_smart(level_file, smart_name, anomaly_type, level_name, position_data)
+							if anom_id then
+								anomalies[#anomalies + 1] = anom_id
+								anomalies_by_smart[smart_name][anom_id] = true
+								smart_by_anomalies[anom_id] = smart_name
+								anomaly_types_by_smart[smart_name] = anomaly_type
+								available_smarts_reduced[smart_name] = smart_list_reduced[smart_name]
+								anomalies_properties[anom_id] = drx_da_main.generate_random_anomaly_properties()
+							end
+						end
+						j = j + 1
+					end
+				else
+					printf("No dynamic anomaly types specified for level %s", level_name)
+				end
+			else
+				printf("no anomalies spawn on smart %s, level %s in restriction", smart_name, level_name)
+			end
+		end
+		return #anomalies > 0
+	end
+end

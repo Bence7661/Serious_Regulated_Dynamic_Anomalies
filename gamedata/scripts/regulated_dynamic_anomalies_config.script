@@ -1,0 +1,15 @@
+local mcm = regulated_dynamic_anomalies_mcm.get_config
+
+--[[
+    Non MCM configs
+--]]
+devDebug = false
+--[[
+    Non MCM configs
+--]]
+
+function Get(cfg)
+    if cfg == "devDebug" then return devDebug end
+
+    return mcm(cfg)
+end

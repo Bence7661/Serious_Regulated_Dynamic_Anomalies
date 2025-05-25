@@ -1,0 +1,17 @@
+function get_config(key)
+  if ui_mcm then return ui_mcm.get("regulated_dynamic_anomalies/"..key) else return defaults[key] end
+end
+
+function on_mcm_load()
+    op = {
+      id = "regulated_dynamic_anomalies",
+      sh = true,
+      gr =
+        {  -- options tree goes here
+            { id = "sld", type = "slide", text = "ui_mcm_rda_sld_text", link = "ui_options_slider_control", size = {512, 50}, spacing = 20},
+            { id = "smart_logger_help", type = "desc", clr = {200, 255, 200, 200}, text="ui_mcm_regulated_dynamic_anomalies_smart_logger_help"},
+            { id = "smart_logger",  type = "check", val = 1, def = false},
+        }
+      }
+    return op
+  end
