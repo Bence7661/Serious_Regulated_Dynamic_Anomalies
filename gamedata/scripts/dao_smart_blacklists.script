@@ -3,68 +3,67 @@ local smartBlacklistByMap =
     --Cordon
     ["l01_escape"] =
     {
-        ["esc_smart_terrain_5_2"] = true
+        ["esc_smart_terrain_5_2"] = true --Anomalies blocking the entrance from Garbage
     },
-
 
     --Meadow
     ["y04_pole"] =
     {
-        ["pol_smart_terrain_1_1"] = true,
-        ["pol_sim_1"] = true
+        ["pol_smart_terrain_1_1"] = true, --Anomalies spawn around the campfire in the small village, Lost Signal tasks can be blocked by them
+        ["pol_sim_1"] = true --Anomalies spawn infront of the building in the factory, Lost Signal tasks can be blocked by them
     },
 
     --Garbage
     ["l02_garbage"] =
     {
-        ["gar_smart_terrain_6_3"] = true
+        ["gar_smart_terrain_6_3"] = true --Anomalies spawn inside the Flea Market blocking access to the area, the traders or the basement under the building
     },
 
     --Agroprom Underground
     ["l03u_agr_underground"] =
     {
-        ["agr_u_soldiers"] = true,
-        ["agr_u_bloodsucker"] = true,
-        ["agr_u_bloodsucker_2"] = true
+        ["agr_u_soldiers"] = true, --Anomalies can spawn blocking the entrance next to the scripted bloodsucker area
+        ["agr_u_bloodsucker"] = true, --Anomalies can spawn blocking the path from the military entrance to Agro Underground
+        ["agr_u_bloodsucker_2"] = true --Anomalies can spawn inside Strelok's hideout blocking the entrance
     },
 
     --Yantar
     ["l08_yantar"] =
     {
-        ["yan_smart_terrain_snork_u"] = true
+        ["yan_smart_terrain_snork_u"] = true --Anomalies can spawn in the MM tunnels
     },
 
     --Miracle Machine (X-16)
     ["l08u_brainlab"] =
     {
-        ["x162_st_snork"] = true,
-        ["x162_st_poltergeist"] = true
+        ["x162_st_snork"] = true, --First room with snorks can be filled with anomalies
+        ["x162_st_poltergeist"] = true --The entire main chamber area with platforms can spawn anomalies next to the consoles, on the platforms or on the stairs
     },
 
     --Wild Territory
     ["l06_rostok"] =
     {
-        ["ros_smart_monster5"] = true,
-        ["ros_smart_killers1"] = true
+        ["ros_smart_monster5"] = true, --Anomalies can spawn in a little pathway next to the helicopter, Lost Signal tasks can be blocked by them
+        ["ros_smart_killers1"] = true --Radiation patch in the sniper nest
     },
 
     --Army Warehouses
     ["l07_military"] =
     {
-        ["mil_smart_terrain_2_2"] = true,
-        ["mil_smart_terrain_4_8"] = true
+        ["mil_smart_terrain_2_2"] = true, --Radiation patch on entry to Army Warehouses from Dead City
+        ["mil_smart_terrain_4_8"] = true --Radiation patch and possibly other anomalies around Gatekeeper spot (i doubt it's an actual issue but i guess it could happen..)
     },
 
     --Dead City
     ["l09_deadcity"] =
     {
-        ["cit_killers_vs_bandits"] = true
+        ["cit_killers_vs_bandits"] = true --Radiation along with gravitational anomalies in the building in the middle of the map
     },
 
     --Brain Scorcher (X-19)
     ["l10u_bunker"] =
     {
-        ["bun2_tushkano_lair"] = true,
+        ["bun2_tushkano_lair"] = true, --Anomalies blocking route to the main switch
         ["bun_krovosos_nest"] = true,
         ["bun2_st_bloodsucker"] = true
     },
@@ -72,27 +71,27 @@ local smartBlacklistByMap =
     --Limansk
     ["l10_limansk"] =
     {
-        ["lim_smart_terrain_4"] = true
+        ["lim_smart_terrain_4"] = true --Anomalies blocking a pathway through the city (linear design is pain)
     },
 
     --Pripyat
     ["l11_pripyat"] =
     {
-        ["pri_smart_bloodsucker_lair1"] = true,
-        ["pri_smart_pseudodog_lair1"] = true
+        ["pri_smart_bloodsucker_lair1"] = true, --Anomalies blocking the entrance from Jupiter
+        ["pri_smart_pseudodog_lair1"] = true --Anomalies blocking the entrance from Outskirts
     },
 
     --Outskirts
     ["pripyat"] =
     {
-        ["pri_a28_heli"] = true
+        ["pri_a28_heli"] = true --Anomalies spawning next to the Prometheus Theater, can block Operation Afterglow and the Living Fire quest
     },
 
     --Red Forest
     ["l10_red_forest"] =
     {
-        ["red_smart_terrain_monsters_2"] = true,
-        ["red_smart_terrain_3_2"] = true
+        ["red_smart_terrain_monsters_2"] = true, --The cave that you have to go through to get to the south eastern part of Red Forest
+        ["red_smart_terrain_3_2"] = true --SIN base
     }
 }
 
