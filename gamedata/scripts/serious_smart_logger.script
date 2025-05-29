@@ -4,11 +4,16 @@ function LogSmartData(key)
     if key == DIK_keys.DIK_X and rdaCfg("smart_logger") then
         local smart_id = smart_terrain.nearest_to_actor_smart.id
         local smart = smart_id and SIMBOARD.smarts[smart_id]
+        local msg = ""
 
         if not smart or not smart.smrt then
-            Log("[SERIOUS SMART LOGGER] Smart not found!")
+            msg = "[SERIOUS SMART LOGGER] Smart not found!"
+            Log(msg)
+            news_manager.send_tip(db.actor, msg, nil, "ui_icon_news_trx_communication", 6000)
         else
-            Log("[SERIOUS SMART LOGGER] LevelName: %s, Smart name: %s", level.name(), smart.smrt:name())
+            msg = string.format("[SERIOUS SMART LOGGER] LevelName: %s, Smart name: %s", level.name(), smart.smrt:name())
+            Log(msg)
+            news_manager.send_tip(db.actor, msg, nil, "ui_icon_news_trx_communication", 6000)
         end
     end
 end
