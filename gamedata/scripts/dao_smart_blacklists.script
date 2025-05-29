@@ -1,8 +1,98 @@
 local smartBlacklistByMap =
 {
+    --Cordon
+    ["l01_escape"] =
+    {
+        ["esc_smart_terrain_5_2"] = true
+    },
+
+
+    --Meadow
+    ["y04_pole"] =
+    {
+        ["pol_smart_terrain_1_1"] = true,
+        ["pol_sim_1"] = true
+    },
+
+    --Garbage
+    ["l02_garbage"] =
+    {
+        ["gar_smart_terrain_6_3"] = true
+    },
+
+    --Agroprom Underground
+    ["l03u_agr_underground"] =
+    {
+        ["agr_u_soldiers"] = true,
+        ["agr_u_bloodsucker"] = true,
+        ["agr_u_bloodsucker_2"] = true
+    },
+
+    --Yantar
+    ["l08_yantar"] =
+    {
+        ["yan_smart_terrain_snork_u"] = true
+    },
+
+    --Miracle Machine (X-16)
     ["l08u_brainlab"] =
     {
-        ["x162_st_snork"] = true
+        ["x162_st_snork"] = true,
+        ["x162_st_poltergeist"] = true
+    },
+
+    --Wild Territory
+    ["l06_rostok"] =
+    {
+        ["ros_smart_monster5"] = true,
+        ["ros_smart_killers1"] = true
+    },
+
+    --Army Warehouses
+    ["l07_military"] =
+    {
+        ["mil_smart_terrain_2_2"] = true,
+        ["mil_smart_terrain_4_8"] = true
+    },
+
+    --Dead City
+    ["l09_deadcity"] =
+    {
+        ["cit_killers_vs_bandits"] = true
+    },
+
+    --Brain Scorcher (X-19)
+    ["l10u_bunker"] =
+    {
+        ["bun2_tushkano_lair"] = true,
+        ["bun_krovosos_nest"] = true,
+        ["bun2_st_bloodsucker"] = true
+    },
+
+    --Limansk
+    ["l10_limansk"] =
+    {
+        ["lim_smart_terrain_4"] = true
+    },
+
+    --Pripyat
+    ["l11_pripyat"] =
+    {
+        ["pri_smart_bloodsucker_lair1"] = true,
+        ["pri_smart_pseudodog_lair1"] = true
+    },
+
+    --Outskirts
+    ["pripyat"] =
+    {
+        ["pri_a28_heli"] = true
+    },
+
+    --Red Forest
+    ["l10_red_forest"] =
+    {
+        ["red_smart_terrain_monsters_2"] = true,
+        ["red_smart_terrain_3_2"] = true
     }
 }
 
