@@ -26,6 +26,7 @@ This is going to be an iterative project where I request your help, so how can y
 ["l01_escape"] =
 {
     ["esc_smart_terrain_5_2"] = true --Anomalies blocking the entrance from Garbage
+    ["esc_smart_terrain_2_12"] = true --Rookie Village
 },
 
 --Meadow
